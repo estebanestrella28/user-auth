@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main>
+
+    <% if (typeof username !== 'undefined') { %>
+      <section class="login-container">
+      <h1> Bienvenido <%= username %></h1>
+      <button id="logout">Cerrar sesión</button>
+      </section>
+    <% } %>
+    
+
+    <% if (typeof username === 'undefined') { %>
+      
+    <section class="login-container">
+      <h1>Login</h1>
+
+      <form id="login" >
+        <label  for="username">Username
+          <input autoFocus id="login-username"  name="username" required type="text">
+        </label>
+        <label for="password">Password
+          <input id="login-password" name="password"  required type="password">
+        </label>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+    
+    <section class="register-container">
+      
+      <h1>Register</h1>
+      <form  id="register" method="post">
+        <label for="username">Username
+          <input id="register-username" name="username" required  minlength="6" type="text">
+        </label>
+        <label for="password">Password
+          <input id="register-password" name="password" required minlength="8" type="text" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+        </label>
+
+        <label for="repeat-password">Confirm Password
+          <input id="register-password2" name="repeat-password" required minlength="8" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+        </label>
+        <button type="submit">Register</button>
+      </form>
+        
+    </section>
+
+    <% } %>
+
+  </main>
+
+  <script>
+
+    // Login
+    const $ = el => document.querySelector(el)
+
+    const loginForm = $("#login")
+
+
+    loginForm?.addEventListener("submit", e => {
+      e.preventDefault()
+
+      const username = $('#login-username').value
+      const password = $('#login-password').value
+
+      fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
+      })
+      .then( async res =>  {
+        const result = await res.json()
+        
+        setTimeout(() => {
+          window.location.href = result.redirect        
+        }, 3000)
+      })
+
+    })
+
+
+    // Register
+
+
+  const registerForm = $("#register")
+
+
+  registerForm?.addEventListener("submit", e => {
+    e.preventDefault()
+
+    const username = $('#register-username').value
+    const password = $('#register-password').value
+
+    fetch('/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password})
+    })
+    .then( async res =>  {
+        const result = await res.json()
+        
+        setTimeout(() => {
+          window.location.href = result.redirect        
+        }, 1000)
+      })
+
+  })
+
+        
+  const logoutButton = $('#logout')
+
+  console.log(logoutButton)
+
+  logoutButton?.addEventListener('click', e => {
+    e.preventDefault()
+
+    fetch('/logout', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+    })
+      .then(res => {
+        console.log(res)
+        window.location.href = '/'
+      })
+  })
+
+
+  </script>
+  
+</body>
+</html>

@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch index.js"
+    "dev": "node --watch server.js",
+    "db": "node sql.js"
   },
   "keywords": [],
   "author": "",
@@ -14,12 +15,18 @@
   "devDependencies": {
     "standard": "17.1.0"
   },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.10",
+    "express": "4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mssql": "^11.0.1",
+    "zod": "^3.23.8"
+  },
   "eslintConfig": {
     "extends": [
       "standard"
     ]
-  },
-  "dependencies": {
-    "express": "^4.19.2"
   }
 }

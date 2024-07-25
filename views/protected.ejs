@@ -1,0 +1,43 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+
+
+
+<h1>Hola: <%= username %></h1>
+<h2>esto es una ruta protegida</h2>
+
+
+<% if (typeof username !== 'undefined') { %>
+  <section class="login-container">
+  <h1> Bienvenido <%= username %></h1>
+  <button id="logout">Cerrar sesión</button>
+  </section>
+<% } %>
+
+
+<script>
+
+const $ = el => document.querySelector(el)
+
+  const logoutButton = $('#logout')
+
+  console.log(logoutButton)
+
+  logoutButton?.addEventListener('click', e => {
+    e.preventDefault()
+    
+    fetch('/logout', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+    })
+    .then(res => {
+      console.log(res)
+      window.location.href = '/'
+    })
+  })
+</script>
